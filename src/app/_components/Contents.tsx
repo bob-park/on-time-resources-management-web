@@ -66,7 +66,7 @@ export default function Contents({ children }: Readonly<{ children: React.ReactN
             </div>
 
             {/* contents */}
-            <div className="w-full pr-5">{children}</div>
+            <div className="w-full p-5">{children}</div>
           </div>
         </div>
       </div>
