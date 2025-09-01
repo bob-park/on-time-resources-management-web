@@ -83,7 +83,7 @@ export default function Home() {
           {/* 총 기기 수 */}
           <div className="card bg-base-300 card-md flex-1 shadow-sm">
             <div className="card-body">
-              <h2 className="card-title text-gray-400">총 기기 수</h2>
+              <h2 className="card-title text-gray-400">총 기기</h2>
               <div className="flex w-full flex-col gap-3">
                 <p className="text-xl font-bold">{dashboard?.total || 0} 개</p>
                 <p className="h-6 text-base font-semibold text-gray-600"> </p>
@@ -94,20 +94,20 @@ export default function Home() {
           {/* 사용 기기 수 */}
           <div className="card bg-base-300 card-md flex-1 shadow-sm">
             <div className="card-body">
-              <h2 className="card-title text-gray-400">사용 기기 수</h2>
+              <h2 className="card-title text-gray-400">사용 기기</h2>
               <div className="flex w-full flex-col gap-3">
                 <p className="text-xl font-bold">{dashboard?.status.used || 0} 개</p>
-                <p className="text-base font-semibold text-gray-600">대기 기기 수: {dashboard?.status.waiting} 개</p>
+                <p className="text-base font-semibold text-gray-600">대기 기기: {dashboard?.status.waiting} 개</p>
               </div>
             </div>
           </div>
 
           <div className="card bg-base-300 card-md flex-1 shadow-sm">
             <div className="card-body">
-              <h2 className="card-title text-gray-400">사용 S/W 수</h2>
+              <h2 className="card-title text-gray-400">사용 S/W</h2>
               <div className="flex w-full flex-col gap-3">
                 <p className="text-xl font-bold">0 개</p>
-                <p className="text-base font-semibold text-gray-600">대기 S/W 수: 0 개</p>
+                <p className="text-base font-semibold text-gray-600">대기 S/W: 0 개</p>
               </div>
             </div>
           </div>

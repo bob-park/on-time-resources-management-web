@@ -42,7 +42,7 @@ export default function Contents({ children }: Readonly<{ children: React.ReactN
 
   return (
     <OverlayProvider>
-      <div className="relative flex w-full flex-row items-center gap-5 p-2">
+      <div className="relative flex h-screen w-full flex-row items-center gap-5 overflow-y-auto p-2">
         {/* nav menu */}
         <div
           className={cx(

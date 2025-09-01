@@ -36,7 +36,7 @@ const NavMenuItem = ({
     <li className="mt-1">
       <Link
         className={cx('flex flex-row items-center justify-between rounded-full', {
-          'bg-base-200': active,
+          'bg-base-content/30': active,
         })}
         href={href}
       >
@@ -98,15 +98,13 @@ export default function NavMenu({ shadow = false }: Readonly<{ shadow?: boolean 
             <span className="text-sm text-gray-500">기기 / 소프트웨어</span>
           </div>
           <NavMenuList title="기기 관리" icon={<PiDevicesFill className="size-5" />}>
-            <NavMenuItem title="기기 등록" />
-            <NavMenuItem title="기기 목록" />
-            <NavMenuItem title="기기 할당" />
+            <NavMenuItem title="기기 목록" href="/devices" active={isActive(segments, ['devices'])} />
+            <NavMenuItem title="사용자 기기 관리" />
           </NavMenuList>
 
-          <NavMenuList title="소프트웨어 관리" icon={<RiMiniProgramFill className="size-5" />}>
-            <NavMenuItem title="소프트웨어 등록" />
-            <NavMenuItem title="소프트웨어 목록" />
-            <NavMenuItem title="소프트웨어 할당" />
+          <NavMenuList title="S/W 관리" icon={<RiMiniProgramFill className="size-5" />}>
+            <NavMenuItem title="S/W 목록" />
+            <NavMenuItem title="사용자 S/W 관리" />
           </NavMenuList>
         </div>
       </div>
