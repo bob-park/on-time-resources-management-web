@@ -7,7 +7,6 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "mock": "npx tsx watch ./src/mocks/http.ts",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html}\""
   },
   "dependencies": {
@@ -17,6 +16,8 @@
     "@types/uuid": "^10.0.0",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.18",
+    "echarts": "^6.0.0",
+    "echarts-for-react": "3.0.2",
     "immer": "^10.1.1",
     "ky": "^1.9.1",
     "lodash": "^4.17.21",

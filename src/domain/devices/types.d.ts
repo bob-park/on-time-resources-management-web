@@ -1,5 +1,5 @@
 type DeviceStatus = 'USED' | 'WAITING' | 'BROKEN' | 'REPAIRING' | 'LOST';
-type DeviceType = 'NOTEBOOK' | 'DESKTOP' | 'SERVER' | 'TV' | 'MONITOR' | 'ETC';
+type DeviceType = 'LAPTOP' | 'DESKTOP' | 'SERVER' | 'TV' | 'MONITOR' | 'ETC';
 
 interface Device {
   id: string;
@@ -26,6 +26,14 @@ interface Device {
 
 interface DeviceDashboard {
   total: number;
+  category: {
+    laptop: number;
+    desktop: number;
+    server: number;
+    tv: number;
+    monitor: number;
+    etc: number;
+  };
   status: {
     used: number;
     waiting: number;

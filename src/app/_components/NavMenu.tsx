@@ -1,6 +1,7 @@
 'use client';
 
 import { PiDevicesFill } from 'react-icons/pi';
+import { RiMiniProgramFill } from 'react-icons/ri';
 import { TbLayoutDashboardFilled } from 'react-icons/tb';
 
 import Link from 'next/link';
@@ -94,10 +95,18 @@ export default function NavMenu({ shadow = false }: Readonly<{ shadow?: boolean 
 
           {/* device menu */}
           <div className="mt-5 w-full pl-3">
-            <span className="text-sm text-gray-500">기기</span>
+            <span className="text-sm text-gray-500">기기 / 소프트웨어</span>
           </div>
           <NavMenuList title="기기 관리" icon={<PiDevicesFill className="size-5" />}>
+            <NavMenuItem title="기기 등록" />
             <NavMenuItem title="기기 목록" />
+            <NavMenuItem title="기기 할당" />
+          </NavMenuList>
+
+          <NavMenuList title="소프트웨어 관리" icon={<RiMiniProgramFill className="size-5" />}>
+            <NavMenuItem title="소프트웨어 등록" />
+            <NavMenuItem title="소프트웨어 목록" />
+            <NavMenuItem title="소프트웨어 할당" />
           </NavMenuList>
         </div>
       </div>
