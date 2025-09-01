@@ -145,24 +145,24 @@ export default function Home() {
         {/* 고장 / 수리 */}
         <div className="flex w-full flex-row items-center gap-5">
           {/* 총 기기 수 */}
-          <div className="card bg-base-300 card-md flex-2/3 shadow-sm">
+          <div className="card bg-base-300 card-md flex-1 shadow-sm">
             <div className="card-body">
               <h2 className="card-title text-gray-400">
                 <TiWarning className="inline size-6 text-yellow-300" />
                 고장 / 수리 중인 기기
               </h2>
               <div className="flex w-full flex-col gap-3">
-                <div className="flex flex-row gap-3">
-                  <strong className="w-48 flex-none text-center">관리 번호</strong>
-                  <strong className="w-32 flex-none text-center">소유자</strong>
-                  <strong className="w-24 flex-none text-center">상태</strong>
+                <div className="grid grid-cols-6 gap-1">
+                  <strong className="col-span-3 text-center">관리 번호</strong>
+                  <strong className="text-center">소유자</strong>
+                  <strong className="text-center">상태</strong>
                 </div>
                 <div className="flex flex-col gap-1"></div>
               </div>
             </div>
           </div>
 
-          <div className="flex-1/3"></div>
+          <div className="flex-1"></div>
         </div>
       </div>
     </div>

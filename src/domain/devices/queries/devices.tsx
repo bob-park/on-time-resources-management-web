@@ -1,6 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { InfiniteData, QueryKey, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
-import { getDashboard } from '@/domain/devices/api/devices';
+import { getDashboard, getDevice } from '@/domain/devices/api/devices';
+import { getNextPageParams } from '@/shared/api';
 
 export function useDeviceDashboard() {
   const { data, isLoading } = useQuery<DeviceDashboard>({
@@ -9,4 +10,37 @@ export function useDeviceDashboard() {
   });
 
   return { dashboard: data, isLoading };
+}
+
+export function useDevices(req: DeviceSearchRequest) {
+  const { data, fetchNextPage, refetch, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery<
+    Page<Device>,
+    unknown,
+    InfiniteData<Page<Device>>,
+    QueryKey,
+    PageRequest
+  >({
+    queryKey: ['devices'],
+    queryFn: async ({ pageParam }) => getDevice({ ...req, ...pageParam }),
+    initialPageParam: {
+      size: 25,
+      page: 0,
+    },
+    getNextPageParam: (lastPage) => getNextPageParams<Device>(lastPage),
+  });
+
+  const devices = (data?.pages || ([] as Page<Device>[])).reduce(
+    (current, value) => current.concat(value.content),
+    [] as Device[],
+  );
+
+  const page: Pick<Page<Device>, 'total' | 'pageable'> = {
+    total: data?.pages[0]?.total ?? 0,
+    pageable: {
+      pageSize: 25,
+      pageNumber: data?.pages[0]?.pageable?.pageNumber ?? 0,
+    },
+  };
+
+  return { devices, isLoading, isFetchingNextPage, fetchNextPage, refetch, page, hasNextPage };
 }
