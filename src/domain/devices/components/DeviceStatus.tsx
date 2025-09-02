@@ -1,7 +1,7 @@
 export default function DeviceStatus({ status }: Readonly<{ status: DeviceStatus }>) {
   switch (status) {
     case 'USED':
-      return <div className="badge badge-success">사용중</div>;
+      return <div className="badge badge-success">사용</div>;
     case 'WAITING':
       return <div className="badge badge-info">대기</div>;
     case 'BROKEN':

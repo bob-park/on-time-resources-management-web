@@ -12,7 +12,7 @@ export function useDeviceDashboard() {
   return { dashboard: data, isLoading };
 }
 
-export function useDevices(req: DeviceSearchRequest) {
+export function useDevices(req: DeviceSearchRequest, initPageParams: PageRequest) {
   const { data, fetchNextPage, refetch, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery<
     Page<Device>,
     unknown,
@@ -23,8 +23,7 @@ export function useDevices(req: DeviceSearchRequest) {
     queryKey: ['devices'],
     queryFn: async ({ pageParam }) => getDevice({ ...req, ...pageParam }),
     initialPageParam: {
-      size: 25,
-      page: 0,
+      ...initPageParams,
     },
     getNextPageParam: (lastPage) => getNextPageParams<Device>(lastPage),
   });
@@ -37,7 +36,7 @@ export function useDevices(req: DeviceSearchRequest) {
   const page: Pick<Page<Device>, 'total' | 'pageable'> = {
     total: data?.pages[0]?.total ?? 0,
     pageable: {
-      pageSize: 25,
+      pageSize: initPageParams.size,
       pageNumber: data?.pages[0]?.pageable?.pageNumber ?? 0,
     },
   };

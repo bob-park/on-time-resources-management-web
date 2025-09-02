@@ -16,18 +16,33 @@ export default function DeviceListContents() {
   const [searchParams, setSearchParams] = useState<DeviceSearchRequest>({});
 
   // queries
-  const { devices, fetchNextPage, hasNextPage, page, isLoading, isFetchingNextPage } = useDevices(searchParams);
-
-  console.log(isFetchingNextPage);
+  const { devices, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useDevices(searchParams, {
+    size: 15,
+    page: 0,
+    sort: 'purchaseDate,desc',
+  });
 
   // useEffect
   useEffect(() => {
-    const observer = new IntersectionObserver(() => fetchNextPage());
+    if (!hasMoreRef.current) {
+      return;
+    }
 
-    hasNextPage && hasMoreRef.current && observer.observe(hasMoreRef.current);
+    const observer = new IntersectionObserver(
+      async (entries) => {
+        const isExecute = entries.every((entry) => entry.intersectionRatio === 1);
+
+        if (isExecute) {
+          await fetchNextPage();
+        }
+      },
+      { threshold: 1 },
+    );
+
+    hasNextPage ? observer.observe(hasMoreRef.current) : observer.unobserve(hasMoreRef.current);
 
     return () => {
-      hasMoreRef.current && observer.unobserve(hasMoreRef.current);
+      observer.disconnect();
     };
   }, [hasNextPage]);
 
@@ -39,7 +54,7 @@ export default function DeviceListContents() {
       {/* search result */}
       <div className="flex w-full flex-col items-center gap-3">
         {/* headers */}
-        <div className="grid size-full grid-cols-18 items-center justify-center gap-3 px-4">
+        <div className="bg-base-300 grid size-full grid-cols-18 items-center justify-center gap-3 rounded-xl px-4 py-2">
           <div className="col-span-2">
             <p className="text-center">종류</p>
           </div>
@@ -72,8 +87,8 @@ export default function DeviceListContents() {
               </div>
             </div>
             <div className="col-span-5">
-              <div className="flex h-full items-center justify-center">
-                <div className="tooltip w-full" data-tip={device.name}>
+              <div className="flex h-full w-full items-center">
+                <div className="tooltip w-fit max-w-full" data-tip={device.name}>
                   <p className="w-full truncate">{device.name}</p>
                 </div>
               </div>
@@ -112,7 +127,7 @@ export default function DeviceListContents() {
 
         {/* more item */}
         {hasNextPage && (!isFetchingNextPage || !isLoading) && (
-          <div ref={hasMoreRef} className="flex w-full items-center justify-center"></div>
+          <div ref={hasMoreRef} className="flex h-6 w-full items-center justify-center"></div>
         )}
       </div>
     </div>
