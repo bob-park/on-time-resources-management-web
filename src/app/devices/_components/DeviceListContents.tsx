@@ -16,8 +16,6 @@ export default function DeviceListContents() {
   // state
   const [searchParams, setSearchParams] = useState<DeviceSearchRequest>({});
 
-  console.log(searchParams);
-
   // queries
   const { devices, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useDevices(searchParams, {
     size: 15,
