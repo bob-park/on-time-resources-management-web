@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import DeviceStatus from '@/domain/devices/components/DeviceStatus';
+import DeviceStatusSelect from '@/domain/devices/components/DeviceStatusSelect';
 import DeviceTypeIcon from '@/domain/devices/components/DeviceTypeIcon';
 import { useDevices } from '@/domain/devices/queries/devices';
 import TimeAgoKo from '@/shared/components/timeago';
@@ -14,6 +15,8 @@ export default function DeviceListContents() {
 
   // state
   const [searchParams, setSearchParams] = useState<DeviceSearchRequest>({});
+
+  console.log(searchParams);
 
   // queries
   const { devices, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useDevices(searchParams, {
@@ -49,10 +52,20 @@ export default function DeviceListContents() {
   return (
     <div className="flex size-full flex-col gap-3">
       {/* search form */}
-      <div className="w-full"></div>
+      <div className="w-full">
+        <div className="flex flex-row items-center gap-3">
+          {/* 상태 */}
+          <div className="">
+            <DeviceStatusSelect
+              value={searchParams.status}
+              onChange={(status) => setSearchParams((prev) => ({ ...prev, status }))}
+            />
+          </div>
+        </div>
+      </div>
 
       {/* search result */}
-      <div className="flex w-full flex-col items-center gap-3">
+      <div className="mt-5 flex w-full flex-col items-center gap-3">
         {/* headers */}
         <div className="bg-base-300 grid size-full grid-cols-18 items-center justify-center gap-3 rounded-xl px-4 py-2">
           <div className="col-span-2">

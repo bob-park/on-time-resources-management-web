@@ -20,7 +20,7 @@ export function useDevices(req: DeviceSearchRequest, initPageParams: PageRequest
     QueryKey,
     PageRequest
   >({
-    queryKey: ['devices'],
+    queryKey: ['devices', req],
     queryFn: async ({ pageParam }) => getDevice({ ...req, ...pageParam }),
     initialPageParam: {
       ...initPageParams,
@@ -38,6 +38,7 @@ export function useDevices(req: DeviceSearchRequest, initPageParams: PageRequest
     pageable: {
       pageSize: initPageParams.size,
       pageNumber: data?.pages[0]?.pageable?.pageNumber ?? 0,
+      sort: data?.pages[0].pageable.sort ?? { orders: [{ property: 'purchaseDate', direction: 'DESC' }] },
     },
   };
 

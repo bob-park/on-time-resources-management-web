@@ -61,7 +61,7 @@ export default function Contents({ children }: Readonly<{ children: React.ReactN
         >
           <div className="relative flex w-full flex-col items-center gap-5">
             {/* headers */}
-            <div className="sticky top-0 z-10 w-full pr-4">
+            <div className="sticky top-0 z-20 w-full pr-4">
               <Header showNav={showNav} onExtendClick={() => setShowNav(!showNav)} />
             </div>
 
