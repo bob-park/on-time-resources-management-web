@@ -5,12 +5,13 @@ import { useEffect, useRef } from 'react';
 import { MdDevices } from 'react-icons/md';
 
 import DeviceTypeSelect from '@/domain/devices/components/DeviceTypeSelect';
+import { useDeviceRegister } from '@/domain/devices/queries/devices';
 import DataSizeInput, { DataSizeUnit, toBytes } from '@/shared/components/size/DataSizeInput';
 import dayjs from '@/shared/dayjs';
 import useInputFields, { InputField } from '@/shared/hooks/useInputFields';
 import { getDaysOfWeek } from '@/utils/date';
 
-import { DateRange, DayPicker } from 'react-day-picker';
+import { DayPicker } from 'react-day-picker';
 import { ko } from 'react-day-picker/locale';
 import 'react-day-picker/style.css';
 
@@ -62,6 +63,7 @@ const defaultInputFields: InputField[] = [
   },
   {
     field: 'purchaseDate',
+    value: dayjs().format('YYYY-MM-DD'),
     required: true,
   },
 ];
@@ -72,6 +74,13 @@ export default function DeviceRegisterModal({
 }: Readonly<{ open?: boolean; onClose?: () => void }>) {
   // ref
   const dialogRef = useRef<HTMLDialogElement>(null);
+
+  // queries
+  const { registerDevice, isLoading } = useDeviceRegister({
+    onSuccess: () => {
+      handleBackdrop();
+    },
+  });
 
   // hooks
   const { valid, onInputChange, onInputValue } = useInputFields(defaultInputFields);
@@ -97,6 +106,10 @@ export default function DeviceRegisterModal({
   };
 
   const handleSubmit = () => {
+    if (!valid) {
+      return;
+    }
+
     const memoryToken = (onInputValue('memory') || '0,GB').split(',');
     const storageToken = (onInputValue('storage') || '0,GB').split(',');
 
@@ -117,7 +130,7 @@ export default function DeviceRegisterModal({
         .toDate(),
     };
 
-    console.log(valid, req);
+    registerDevice(req);
   };
 
   return (
@@ -325,11 +338,11 @@ export default function DeviceRegisterModal({
 
         {/* action */}
         <div className="modal-action">
-          <button className="btn" onClick={handleBackdrop}>
+          <button className="btn w-24" onClick={handleBackdrop}>
             닫기
           </button>
-          <button className="btn btn-neutral" onClick={handleSubmit}>
-            등록
+          <button className="btn btn-neutral w-24" disabled={!valid || isLoading} onClick={handleSubmit}>
+            {isLoading ? <span className="loading loading-spinner" /> : '등록'}
           </button>
         </div>
       </div>
