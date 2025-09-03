@@ -2,10 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { MdDevices, MdKey } from 'react-icons/md';
+
 import DeviceStatus from '@/domain/devices/components/DeviceStatus';
 import DeviceStatusSelect from '@/domain/devices/components/DeviceStatusSelect';
 import DeviceTypeIcon from '@/domain/devices/components/DeviceTypeIcon';
+import DeviceTypeSelect from '@/domain/devices/components/DeviceTypeSelect';
 import { useDevices } from '@/domain/devices/queries/devices';
+import UserAvatar from '@/domain/users/components/UserAvatar';
 import TimeAgoKo from '@/shared/components/timeago';
 import dayjs from '@/shared/dayjs';
 
@@ -14,10 +18,21 @@ export default function DeviceListContents() {
   const hasMoreRef = useRef<HTMLDivElement>(null);
 
   // state
-  const [searchParams, setSearchParams] = useState<DeviceSearchRequest>({});
+  const [inputModel, setInputModel] = useState<string>('');
+  const [inputSerialNumber, setInputSerialNumber] = useState<string>('');
+  const [searchParams, setSearchParams] = useState<DeviceSearchRequest>({
+    teamId: '',
+    deviceType: '',
+    description: '',
+    status: '',
+    model: '',
+    manufacturer: '',
+    serialNumber: '',
+    name: '',
+  });
 
   // queries
-  const { devices, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useDevices(searchParams, {
+  const { devices, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage, page } = useDevices(searchParams, {
     size: 15,
     page: 0,
     sort: 'purchaseDate,desc',
@@ -47,23 +62,112 @@ export default function DeviceListContents() {
     };
   }, [hasNextPage]);
 
+  // useEffect
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearchParams((prev) => ({ ...prev, model: inputModel }));
+    }, 500);
+
+    return () => {
+      timeoutId && clearTimeout(timeoutId);
+    };
+  }, [inputModel]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearchParams((prev) => ({ ...prev, serialNumber: inputSerialNumber }));
+    }, 500);
+
+    return () => {
+      timeoutId && clearTimeout(timeoutId);
+    };
+  }, [inputSerialNumber]);
+
   return (
     <div className="flex size-full flex-col gap-3">
       {/* search form */}
       <div className="w-full">
-        <div className="flex flex-row items-center gap-3">
-          {/* 상태 */}
-          <div className="">
-            <DeviceStatusSelect
-              value={searchParams.status}
-              onChange={(status) => setSearchParams((prev) => ({ ...prev, status }))}
+        <div className="flex flex-row items-center gap-6">
+          {/* 종류 */}
+          <div className="flex flex-col items-center gap-3">
+            {/* field */}
+            <div className="w-full">
+              <p className="">종류</p>
+            </div>
+            <DeviceTypeSelect
+              value={searchParams.deviceType || undefined}
+              onChange={(deviceType) => setSearchParams((prev) => ({ ...prev, deviceType: deviceType ?? '' }))}
             />
+          </div>
+
+          {/* 상태 */}
+          <div className="flex flex-col items-center gap-3">
+            {/* field */}
+            <div className="w-full">
+              <p className="">상태</p>
+            </div>
+
+            <DeviceStatusSelect
+              value={searchParams.status || undefined}
+              onChange={(status) => setSearchParams((prev) => ({ ...prev, status: status ?? '' }))}
+            />
+          </div>
+
+          {/* 모델 */}
+          <div className="flex flex-col items-center gap-3">
+            {/* field */}
+            <div className="w-full">
+              <p className="">모델</p>
+            </div>
+
+            <div className="flex h-14 w-full items-center">
+              <label className="input">
+                <MdDevices className="size-5" />
+                <input
+                  type="search"
+                  className="grow"
+                  placeholder="Model"
+                  value={inputModel}
+                  onChange={(e) => setInputModel(e.target.value)}
+                />
+              </label>
+            </div>
+          </div>
+
+          {/* 시리얼 번호 */}
+          <div className="flex flex-col items-center gap-3">
+            {/* field */}
+            <div className="w-full">
+              <p className="">시리얼 번호</p>
+            </div>
+
+            <div className="flex h-14 w-full items-center">
+              <label className="input">
+                <MdKey className="size-5" />
+                <input
+                  type="search"
+                  className="grow"
+                  placeholder="Serial Number"
+                  value={inputSerialNumber}
+                  onChange={(e) => setInputSerialNumber(e.target.value)}
+                />
+              </label>
+            </div>
           </div>
         </div>
       </div>
 
+      <div className="mt-5 w-full">
+        <div className="flex flex-row items-center gap-3 font-bold">
+          <p className="">총 :</p>
+          <p className="">
+            {page.total} <span className="">개</span>
+          </p>
+        </div>
+      </div>
+
       {/* search result */}
-      <div className="mt-5 flex w-full flex-col items-center gap-3">
+      <div className="flex w-full flex-col items-center gap-3">
         {/* headers */}
         <div className="bg-base-300 grid size-full grid-cols-18 items-center justify-center gap-3 rounded-xl px-4 py-2">
           <div className="col-span-2">
@@ -112,7 +216,23 @@ export default function DeviceListContents() {
                 </div>
               </div>
             </div>
-            <div className="col-span-2"></div>
+            <div className="col-span-2">
+              {device.user && (
+                <div className="flex h-full flex-row items-center justify-center gap-2">
+                  {/* user avatar */}
+                  <div className="">
+                    <UserAvatar src={`/api/users/${device.user.id}/avatar`} username={device.user.username} />
+                  </div>
+
+                  {/* user info */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-full">
+                      <div className="text-left text-sm font-semibold">{device.user.username}</div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="col-span-2">
               <div className="flex h-full items-center justify-center">
                 <DeviceStatus status={device.status} />

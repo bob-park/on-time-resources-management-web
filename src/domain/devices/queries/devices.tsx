@@ -21,7 +21,7 @@ export function useDevices(req: DeviceSearchRequest, initPageParams: PageRequest
     PageRequest
   >({
     queryKey: ['devices', req],
-    queryFn: async ({ pageParam }) => getDevice({ ...pageParam, ...req }),
+    queryFn: async ({ pageParam }) => getDevice(req, pageParam),
     initialPageParam: {
       ...initPageParams,
     },

@@ -1,4 +1,4 @@
-type DeviceStatus = 'USED' | 'WAITING' | 'BROKEN' | 'REPAIRING' | 'LOST';
+type DeviceStatus = 'USED' | 'WAITING' | 'BROKEN' | 'REPAIRING' | 'LOST' | 'EXPORT';
 type DeviceType = 'LAPTOP' | 'DESKTOP' | 'SERVER' | 'TV' | 'MONITOR' | 'ETC';
 
 interface Device {
@@ -18,6 +18,7 @@ interface Device {
   status: DeviceStatus;
   purchaseDate: Date;
   ipAddress?: string;
+  user?: User;
   createdDate: Date;
   createdBy: string;
   lastModifiedDate?: Date;
@@ -45,12 +46,12 @@ interface DeviceDashboard {
 }
 
 type DeviceSearchRequest = {
-  teamId?: string;
-  name?: string;
-  description?: string;
-  status?: DeviceStatus;
-  deviceType?: DeviceType;
-  model?: string;
-  manufacturer?: string;
-  serialNumber?: string;
+  teamId: string;
+  name: string;
+  description: string;
+  status: DeviceStatus | '';
+  deviceType: DeviceType | '';
+  model: string;
+  manufacturer: string;
+  serialNumber: string;
 };

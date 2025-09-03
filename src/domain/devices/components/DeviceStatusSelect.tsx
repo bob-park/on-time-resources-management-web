@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { FaCircle, FaRegHandPaper } from 'react-icons/fa';
+import { FaHandshakeSimple } from 'react-icons/fa6';
 import { GiBrokenPottery } from 'react-icons/gi';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { LuLaptop } from 'react-icons/lu';
@@ -28,6 +29,12 @@ const DeviceStatusValue = ({ value }: { value?: DeviceStatus }) => {
         <>
           <FaRegHandPaper className="size-5" />
           <span className="">대기</span>
+        </>
+      )}
+      {value === 'EXPORT' && (
+        <>
+          <FaHandshakeSimple className="size-5" />
+          <span className="">반출</span>
         </>
       )}
       {value === 'BROKEN' && (
@@ -102,6 +109,12 @@ export default function DeviceStatusSelect({ value, onChange }: Readonly<DeviceS
           onClick={() => handleChange('WAITING')}
         >
           <DeviceStatusValue value="WAITING" />
+        </div>
+        <div
+          className="hover:bg-base-100 flex w-full items-center justify-center rounded-xl p-3"
+          onClick={() => handleChange('EXPORT')}
+        >
+          <DeviceStatusValue value="EXPORT" />
         </div>
         <div
           className="hover:bg-base-100 flex w-full items-center justify-center rounded-xl p-3"

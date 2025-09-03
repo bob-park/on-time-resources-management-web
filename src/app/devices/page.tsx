@@ -1,4 +1,5 @@
-import DeviceListContents from '@/app/devices/_components/DeviceListContents';
+import DeviceListContents from './_components/DeviceListContents';
+import DeviceSimpleResult from './_components/DeviceSimpleResult';
 
 export default function DeviceListPage() {
   return (
@@ -9,8 +10,14 @@ export default function DeviceListPage() {
       </div>
 
       {/* contents */}
-      <div className="w-full">
-        <DeviceListContents />
+      <div className="flex w-full flex-col gap-3">
+        <div className="w-full">
+          <DeviceSimpleResult />
+        </div>
+
+        <div className="mt-2 w-full">
+          <DeviceListContents />
+        </div>
       </div>
     </div>
   );
