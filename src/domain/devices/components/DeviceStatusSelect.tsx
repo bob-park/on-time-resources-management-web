@@ -92,46 +92,37 @@ export default function DeviceStatusSelect({ value, onChange }: Readonly<DeviceS
           open ? 'visible' : 'invisible',
         )}
       >
-        <div
-          className="hover:bg-base-100 flex w-full items-center justify-center rounded-xl p-3"
-          onClick={() => handleChange()}
-        >
+        <div className="hover:bg-base-100 flex w-full items-center rounded-xl p-3" onClick={() => handleChange()}>
           <DeviceStatusValue />
         </div>
-        <div
-          className="hover:bg-base-100 flex w-full items-center justify-center rounded-xl p-3"
-          onClick={() => handleChange('USED')}
-        >
+        <div className="hover:bg-base-100 flex w-full items-center rounded-xl p-3" onClick={() => handleChange('USED')}>
           <DeviceStatusValue value="USED" />
         </div>
         <div
-          className="hover:bg-base-100 flex w-full items-center justify-center rounded-xl p-3"
+          className="hover:bg-base-100 flex w-full items-center rounded-xl p-3"
           onClick={() => handleChange('WAITING')}
         >
           <DeviceStatusValue value="WAITING" />
         </div>
         <div
-          className="hover:bg-base-100 flex w-full items-center justify-center rounded-xl p-3"
+          className="hover:bg-base-100 flex w-full items-center rounded-xl p-3"
           onClick={() => handleChange('EXPORT')}
         >
           <DeviceStatusValue value="EXPORT" />
         </div>
         <div
-          className="hover:bg-base-100 flex w-full items-center justify-center rounded-xl p-3"
+          className="hover:bg-base-100 flex w-full items-center rounded-xl p-3"
           onClick={() => handleChange('BROKEN')}
         >
           <DeviceStatusValue value="BROKEN" />
         </div>
         <div
-          className="hover:bg-base-100 flex w-full items-center justify-center rounded-xl p-3"
+          className="hover:bg-base-100 flex w-full items-center rounded-xl p-3"
           onClick={() => handleChange('REPAIRING')}
         >
           <DeviceStatusValue value="REPAIRING" />
         </div>
-        <div
-          className="hover:bg-base-100 flex w-full items-center justify-center rounded-xl p-3"
-          onClick={() => handleChange('LOST')}
-        >
+        <div className="hover:bg-base-100 flex w-full items-center rounded-xl p-3" onClick={() => handleChange('LOST')}>
           <DeviceStatusValue value="LOST" />
         </div>
       </div>
