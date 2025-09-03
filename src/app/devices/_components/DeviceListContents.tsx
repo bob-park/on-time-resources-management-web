@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { IoIosAdd } from 'react-icons/io';
 import { MdDevices, MdKey } from 'react-icons/md';
 
 import DeviceStatus from '@/domain/devices/components/DeviceStatus';
@@ -121,7 +122,7 @@ export default function DeviceListContents() {
             </div>
 
             <div className="flex h-14 w-full items-center">
-              <label className="input">
+              <label className="input input-lg">
                 <MdDevices className="size-5" />
                 <input
                   type="search"
@@ -142,7 +143,7 @@ export default function DeviceListContents() {
             </div>
 
             <div className="flex h-14 w-full items-center">
-              <label className="input">
+              <label className="input input-lg">
                 <MdKey className="size-5" />
                 <input
                   type="search"
@@ -158,11 +159,21 @@ export default function DeviceListContents() {
       </div>
 
       <div className="mt-5 w-full">
-        <div className="flex flex-row items-center gap-3 font-bold">
-          <p className="">총 :</p>
-          <p className="">
-            {page.total} <span className="">개</span>
-          </p>
+        <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-row items-center gap-3 text-lg font-bold">
+            <p className="">총 :</p>
+            <p className="">
+              {page.total} <span className="">개</span>
+            </p>
+          </div>
+
+          {/* action */}
+          <div className="">
+            <button className="btn btn-lg btn-soft">
+              <IoIosAdd className="size-6" />
+              기기 등록
+            </button>
+          </div>
         </div>
       </div>
 
