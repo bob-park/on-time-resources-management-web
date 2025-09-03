@@ -15,7 +15,7 @@ export default function DeviceListPage() {
           <DeviceSimpleResult />
         </div>
 
-        <div className="mt-2 w-full">
+        <div className="mt-5 w-full">
           <DeviceListContents />
         </div>
       </div>

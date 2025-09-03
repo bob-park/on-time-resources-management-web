@@ -59,11 +59,12 @@ const DeviceTypeValue = ({ value }: Readonly<{ value?: DeviceType }>) => {
 };
 
 interface DeviceTypeSelectProps {
+  existAll?: boolean;
   value?: DeviceType;
   onChange?: (type?: DeviceType) => void;
 }
 
-export default function DeviceTypeSelect({ value, onChange }: Readonly<DeviceTypeSelectProps>) {
+export default function DeviceTypeSelect({ existAll = true, value, onChange }: Readonly<DeviceTypeSelectProps>) {
   // state
   const [open, setOpen] = useState<boolean>(false);
 
@@ -91,9 +92,11 @@ export default function DeviceTypeSelect({ value, onChange }: Readonly<DeviceTyp
           open ? 'visible' : 'invisible',
         )}
       >
-        <div className="hover:bg-base-100 flex w-full items-center rounded-xl p-3" onClick={() => handleChange()}>
-          <DeviceTypeValue />
-        </div>
+        {existAll && (
+          <div className="hover:bg-base-100 flex w-full items-center rounded-xl p-3" onClick={() => handleChange()}>
+            <DeviceTypeValue />
+          </div>
+        )}
         <div
           className="hover:bg-base-100 flex w-full items-center rounded-xl p-3"
           onClick={() => handleChange('LAPTOP')}

@@ -14,6 +14,10 @@ import UserAvatar from '@/domain/users/components/UserAvatar';
 import TimeAgoKo from '@/shared/components/timeago';
 import dayjs from '@/shared/dayjs';
 
+import { overlay } from 'overlay-kit';
+
+import DeviceRegisterModal from './DeviceRegisterModal';
+
 export default function DeviceListContents() {
   // ref
   const hasMoreRef = useRef<HTMLDivElement>(null);
@@ -169,7 +173,22 @@ export default function DeviceListContents() {
 
           {/* action */}
           <div className="">
-            <button className="btn btn-lg btn-soft">
+            <button
+              className="btn btn-lg btn-soft"
+              onClick={() =>
+                overlay.open(({ isOpen, close, unmount }) => (
+                  <DeviceRegisterModal
+                    open={isOpen}
+                    onClose={() => {
+                      close();
+                      setTimeout(() => {
+                        unmount();
+                      }, 500);
+                    }}
+                  />
+                ))
+              }
+            >
               <IoIosAdd className="size-6" />
               기기 등록
             </button>

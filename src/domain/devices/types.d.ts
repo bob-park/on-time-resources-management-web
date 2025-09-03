@@ -55,3 +55,19 @@ type DeviceSearchRequest = {
   manufacturer: string;
   serialNumber: string;
 };
+
+// * device register request
+interface DeviceRegisterRequest {
+  deviceType: DeviceType;
+  name: string;
+  description: string;
+  model: string;
+  manufacturer?: string;
+  serialNumber?: string;
+  os?: string;
+  osVersion?: string;
+  cpu?: string;
+  memory?: number;
+  storage?: number;
+  purchaseDate: Date;
+}
