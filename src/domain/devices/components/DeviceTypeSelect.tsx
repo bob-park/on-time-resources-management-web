@@ -87,7 +87,7 @@ export default function DeviceTypeSelect({ value, onChange }: Readonly<DeviceTyp
 
       <div
         className={cx(
-          'bg-base-300 absolute top-16 z-10 flex w-32 flex-col items-center justify-center gap-1 rounded-xl p-1 shadow-lg',
+          'bg-base-300 absolute top-16 z-10 flex w-40 flex-col items-center justify-center gap-1 rounded-xl p-1 shadow-lg',
           open ? 'visible' : 'invisible',
         )}
       >
