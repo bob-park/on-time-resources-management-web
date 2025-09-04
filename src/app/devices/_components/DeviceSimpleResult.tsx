@@ -47,7 +47,7 @@ export default function DeviceSimpleResult() {
             <div className="card-body">
               <h2 className="card-title text-gray-400">수리</h2>
               <div className="flex w-full flex-col gap-3">
-                <p className="text-4xl font-bold">{dashboard?.status.lost || 0}</p>
+                <p className="text-4xl font-bold">{dashboard?.status.repairing || 0}</p>
               </div>
             </div>
           </div>

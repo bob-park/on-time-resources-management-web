@@ -23,3 +23,9 @@ export async function registerDevice(req: DeviceRegisterRequest) {
 
   return result;
 }
+
+export async function updateDevice(id: string, req: DeviceUpdateRequest) {
+  const result = await api.put(`/api/devices/${id}`, { json: req }).json<Device>();
+
+  return result;
+}

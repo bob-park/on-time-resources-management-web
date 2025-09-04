@@ -71,3 +71,7 @@ interface DeviceRegisterRequest {
   storage?: number;
   purchaseDate: Date;
 }
+
+interface DeviceUpdateRequest {
+  status: DeviceStatus;
+}

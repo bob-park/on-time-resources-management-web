@@ -7,6 +7,7 @@ import { MdDevices, MdKey } from 'react-icons/md';
 import { RiUserAddFill } from 'react-icons/ri';
 
 import DeviceAssignModal from '@/app/devices/_components/DeviceAssignModal';
+import DeviceStatusUpdater from '@/app/devices/_components/DeviceStatusUpdater';
 import DeviceStatus from '@/domain/devices/components/DeviceStatus';
 import DeviceStatusSelect from '@/domain/devices/components/DeviceStatusSelect';
 import DeviceTypeIcon from '@/domain/devices/components/DeviceTypeIcon';
@@ -295,7 +296,7 @@ export default function DeviceListContents() {
             </div>
             <div className="col-span-2">
               <div className="flex h-full items-center justify-center">
-                <DeviceStatus status={device.status} />
+                <DeviceStatusUpdater device={device} />
               </div>
             </div>
             <div className="col-span-2">
