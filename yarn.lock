@@ -3449,7 +3449,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^9, eslint@npm:^9.31.0":
+"eslint@npm:^9.31.0":
   version: 9.34.0
   resolution: "eslint@npm:9.34.0"
   dependencies:
@@ -5201,7 +5201,6 @@ __metadata:
     dayjs: "npm:^1.11.18"
     echarts: "npm:^6.0.0"
     echarts-for-react: "npm:3.0.2"
-    eslint: "npm:^9"
     immer: "npm:^10.1.1"
     ky: "npm:^1.9.1"
     lodash: "npm:^4.17.21"
