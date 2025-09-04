@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 
 import { IoIosAdd } from 'react-icons/io';
 import { MdDevices, MdKey } from 'react-icons/md';
+import { RiUserAddFill } from 'react-icons/ri';
 
+import DeviceAssignModal from '@/app/devices/_components/DeviceAssignModal';
 import DeviceStatus from '@/domain/devices/components/DeviceStatus';
 import DeviceStatusSelect from '@/domain/devices/components/DeviceStatusSelect';
 import DeviceTypeIcon from '@/domain/devices/components/DeviceTypeIcon';
@@ -87,6 +89,22 @@ export default function DeviceListContents() {
       timeoutId && clearTimeout(timeoutId);
     };
   }, [inputSerialNumber]);
+
+  // handle
+  const handleAssignUser = () => {
+    overlay.open(({ isOpen, close, unmount }) => (
+      <DeviceAssignModal
+        open={isOpen}
+        onClose={() => {
+          close();
+
+          setTimeout(() => {
+            unmount();
+          }, 500);
+        }}
+      />
+    ));
+  };
 
   return (
     <div className="flex size-full flex-col gap-3">
@@ -246,22 +264,31 @@ export default function DeviceListContents() {
                 </div>
               </div>
             </div>
-            <div className="col-span-2">
-              {device.user && (
-                <div className="flex h-full flex-row items-center justify-center gap-2">
-                  {/* user avatar */}
-                  <div className="">
-                    <UserAvatar src={`/api/users/${device.user.id}/avatar`} username={device.user.username} />
-                  </div>
+            <div className="tooltip col-span-2" data-tip={device.user ? '변경하기' : '할당하기'}>
+              <div
+                className="hover:bg-base-200 size-full items-center justify-center rounded-xl transition-all duration-300"
+                onClick={handleAssignUser}
+              >
+                {device.user ? (
+                  <div className="flex h-full flex-row items-center justify-center gap-2">
+                    {/* user avatar */}
+                    <div className="">
+                      <UserAvatar src={`/api/users/${device.user.id}/avatar`} username={device.user.username} />
+                    </div>
 
-                  {/* user info */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-full">
-                      <div className="text-left text-sm font-semibold">{device.user.username}</div>
+                    {/* user info */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-full">
+                        <div className="text-left text-sm font-semibold">{device.user.username}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                ) : (
+                  <div className="flex size-full items-center justify-center">
+                    <RiUserAddFill className="size-6" />
+                  </div>
+                )}
+              </div>
             </div>
             <div className="col-span-2">
               <div className="flex h-full items-center justify-center">

@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-
 import { MdDevices } from 'react-icons/md';
 
 import DeviceTypeSelect from '@/domain/devices/components/DeviceTypeSelect';
@@ -9,6 +7,7 @@ import { useDeviceRegister } from '@/domain/devices/queries/devices';
 import DataSizeInput, { DataSizeUnit, toBytes } from '@/shared/components/size/DataSizeInput';
 import dayjs from '@/shared/dayjs';
 import useInputFields, { InputField } from '@/shared/hooks/useInputFields';
+import useModal from '@/shared/hooks/useModal';
 import { getDaysOfWeek } from '@/utils/date';
 
 import { DayPicker } from 'react-day-picker';
@@ -72,38 +71,16 @@ export default function DeviceRegisterModal({
   open = false,
   onClose,
 }: Readonly<{ open?: boolean; onClose?: () => void }>) {
-  // ref
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
   // queries
   const { registerDevice, isLoading } = useDeviceRegister({
     onSuccess: () => {
-      handleBackdrop();
+      onBackdrop();
     },
   });
 
   // hooks
+  const { ref, onKeyDown, onBackdrop } = useModal({ open, onClose });
   const { valid, onInputChange, onInputValue } = useInputFields(defaultInputFields);
-
-  // useEffect
-  useEffect(() => {
-    if (!dialogRef.current) {
-      return;
-    }
-
-    open ? dialogRef.current.showModal() : dialogRef.current.close();
-  }, [open]);
-
-  // handle
-  const handleKeyboardDown = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (e.key === 'Escape') {
-      handleBackdrop();
-    }
-  };
-
-  const handleBackdrop = () => {
-    onClose?.();
-  };
 
   const handleSubmit = () => {
     if (!valid) {
@@ -134,7 +111,7 @@ export default function DeviceRegisterModal({
   };
 
   return (
-    <dialog ref={dialogRef} className="modal modal-bottom sm:modal-middle" onKeyDownCapture={handleKeyboardDown}>
+    <dialog ref={ref} className="modal modal-bottom sm:modal-middle" onKeyDownCapture={onKeyDown}>
       <div className="modal-box">
         <h3 className="text-lg font-bold">기기 등록</h3>
 
@@ -338,7 +315,7 @@ export default function DeviceRegisterModal({
 
         {/* action */}
         <div className="modal-action">
-          <button className="btn w-24" onClick={handleBackdrop}>
+          <button className="btn w-24" onClick={onBackdrop}>
             닫기
           </button>
           <button className="btn btn-neutral w-24" disabled={!valid || isLoading} onClick={handleSubmit}>
