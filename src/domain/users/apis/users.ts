@@ -5,8 +5,8 @@ export async function getMe() {
   return api.get('/api/users/me').json<User>();
 }
 
-export async function getUsers(params: UserSearchRequest & PageRequest) {
-  return api.get('/api/users', { searchParams: params }).json<Page<User>>();
+export async function getUsers(params: UserSearchRequest, pageParams: PageRequest) {
+  return api.get('/api/users', { searchParams: { ...pageParams, ...params } }).json<Page<User>>();
 }
 
 export async function getUser(id: string) {

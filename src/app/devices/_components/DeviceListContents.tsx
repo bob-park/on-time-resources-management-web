@@ -91,13 +91,13 @@ export default function DeviceListContents() {
   }, [inputSerialNumber]);
 
   // handle
-  const handleAssignUser = () => {
+  const handleAssignUser = (deviceId: string) => {
     overlay.open(({ isOpen, close, unmount }) => (
       <DeviceAssignModal
+        deviceId={deviceId}
         open={isOpen}
         onClose={() => {
           close();
-
           setTimeout(() => {
             unmount();
           }, 500);
@@ -221,13 +221,13 @@ export default function DeviceListContents() {
           <div className="col-span-2">
             <p className="text-center">종류</p>
           </div>
-          <div className="col-span-5">
+          <div className="col-span-4">
             <p className="text-center">장치 이름</p>
           </div>
           <div className="col-span-5">
             <p className="text-center">모델</p>
           </div>
-          <div className="col-span-2">
+          <div className="col-span-3">
             <p className="text-center">소유자</p>
           </div>
           <div className="col-span-2">
@@ -249,7 +249,7 @@ export default function DeviceListContents() {
                 <DeviceTypeIcon type={device.deviceType} />
               </div>
             </div>
-            <div className="col-span-5">
+            <div className="col-span-4">
               <div className="flex h-full w-full items-center">
                 <div className="tooltip w-fit max-w-full" data-tip={device.name}>
                   <p className="w-full truncate">{device.name}</p>
@@ -264,13 +264,13 @@ export default function DeviceListContents() {
                 </div>
               </div>
             </div>
-            <div className="tooltip col-span-2" data-tip={device.user ? '변경하기' : '할당하기'}>
+            <div className="tooltip col-span-3" data-tip={device.user ? '변경하기' : '할당하기'}>
               <div
-                className="hover:bg-base-200 size-full items-center justify-center rounded-xl transition-all duration-300"
-                onClick={handleAssignUser}
+                className="hover:bg-base-200 size-full rounded-xl px-4 transition-all duration-300"
+                onClick={() => handleAssignUser(device.id)}
               >
                 {device.user ? (
-                  <div className="flex h-full flex-row items-center justify-center gap-2">
+                  <div className="flex h-full w-fit flex-row items-center gap-2">
                     {/* user avatar */}
                     <div className="">
                       <UserAvatar src={`/api/users/${device.user.id}/avatar`} username={device.user.username} />
@@ -280,6 +280,9 @@ export default function DeviceListContents() {
                     <div className="flex flex-col items-center">
                       <div className="w-full">
                         <div className="text-left text-sm font-semibold">{device.user.username}</div>
+                      </div>
+                      <div className="w-full">
+                        <p className="w-full text-xs text-wrap text-gray-500">{device.user.group?.name}</p>
                       </div>
                     </div>
                   </div>

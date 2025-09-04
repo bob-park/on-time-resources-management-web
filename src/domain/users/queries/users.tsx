@@ -14,7 +14,7 @@ export function useMe() {
   return { me: data };
 }
 
-export function useUsers(params: UserSearchRequest & PageRequest) {
+export function useUsers(req: UserSearchRequest, initPageParams: PageRequest) {
   const { data, fetchNextPage, isLoading, refetch } = useInfiniteQuery<
     Page<User>,
     unknown,
@@ -22,11 +22,10 @@ export function useUsers(params: UserSearchRequest & PageRequest) {
     QueryKey,
     PageRequest
   >({
-    queryKey: ['users', params.isDeleted],
-    queryFn: () => getUsers(params),
+    queryKey: ['users', req],
+    queryFn: ({ pageParam }) => getUsers(req, pageParam),
     initialPageParam: {
-      size: 25,
-      page: 0,
+      ...initPageParams,
     },
     getNextPageParam: (lastPage) => getNextPageParams<User>(lastPage),
   });
@@ -39,8 +38,9 @@ export function useUsers(params: UserSearchRequest & PageRequest) {
   const page: Pick<Page<User>, 'total' | 'pageable'> = {
     total: data?.pages[0]?.total ?? 0,
     pageable: {
-      pageSize: 25,
+      pageSize: initPageParams.size,
       pageNumber: data?.pages[0]?.pageable?.pageNumber ?? 0,
+      sort: data?.pages[0].pageable.sort ?? { orders: [{ property: 'username', direction: 'ASC' }] },
     },
   };
 
