@@ -54,6 +54,7 @@ type DeviceSearchRequest = {
   model: string;
   manufacturer: string;
   serialNumber: string;
+  userId: string;
 };
 
 // * device register request

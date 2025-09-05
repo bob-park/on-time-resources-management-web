@@ -13,6 +13,8 @@ import DeviceTypeIcon from '@/domain/devices/components/DeviceTypeIcon';
 import DeviceTypeSelect from '@/domain/devices/components/DeviceTypeSelect';
 import { useDevices } from '@/domain/devices/queries/devices';
 import UserAvatar from '@/domain/users/components/UserAvatar';
+import UserDropdown from '@/domain/users/components/UserDropdown';
+import { useUsers } from '@/domain/users/queries/users';
 import TimeAgoKo from '@/shared/components/timeago';
 import dayjs from '@/shared/dayjs';
 
@@ -36,6 +38,7 @@ export default function DeviceListContents() {
     manufacturer: '',
     serialNumber: '',
     name: '',
+    userId: '',
   });
 
   // queries
@@ -44,6 +47,7 @@ export default function DeviceListContents() {
     page: 0,
     sort: 'purchaseDate,desc',
   });
+  const { users } = useUsers({ isDeleted: false }, { page: 0, size: 100, sort: 'username,asc' });
 
   // useEffect
   useEffect(() => {
@@ -177,6 +181,20 @@ export default function DeviceListContents() {
               </label>
             </div>
           </div>
+
+          {/* 소유자 */}
+          <div className="flex flex-col items-center gap-3">
+            {/* field */}
+            <div className="w-full">
+              <p className="">소유자</p>
+            </div>
+
+            <UserDropdown
+              selectUser={users.find((user) => user.id === searchParams.userId)}
+              users={users}
+              onChange={(id) => setSearchParams({ ...searchParams, userId: id || '' })}
+            />
+          </div>
         </div>
       </div>
 
@@ -262,6 +280,7 @@ export default function DeviceListContents() {
                 <div className="tooltip w-fit max-w-full" data-tip={device.model}>
                   <p className="w-full truncate text-sm text-gray-500">{device.model}</p>
                 </div>
+                <p className="h-5 text-xs text-gray-300">{device.serialNumber}</p>
               </div>
             </div>
             <div className="tooltip col-span-3" data-tip={device.user ? '변경하기' : '할당하기'}>
@@ -281,7 +300,7 @@ export default function DeviceListContents() {
                       <div className="w-full">
                         <div className="text-left text-sm font-semibold">{device.user.username}</div>
                       </div>
-                      <div className="w-full">
+                      <div className="hidden w-full lg:block">
                         <p className="w-full text-xs text-wrap text-gray-500">{device.user.group?.name}</p>
                       </div>
                     </div>

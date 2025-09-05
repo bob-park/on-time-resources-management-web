@@ -44,50 +44,52 @@ export default function DeviceAssignModal({
 
   return (
     <dialog ref={ref} className="modal modal-bottom sm:modal-middle" onKeyDownCapture={onKeyDown}>
-      <div className="modal-box">
+      <div className="modal-box !max-w-80">
         <h3 className="text-lg font-bold">소유자 변경</h3>
 
         {/* contents */}
-        <div className="px- mt-5 flex h-96 flex-col gap-2 overflow-y-auto">
-          {users.map((user) => (
-            <div
-              key={`users-select-item-${user.id}`}
-              className={cx(
-                'hover:bg-base-200 grid cursor-pointer grid-cols-3 items-center justify-center gap-2 rounded-xl p-2 px-6 transition-all duration-300',
-                selectedId === user.id && 'bg-base-300',
-              )}
-              onClick={() => setSelectedId(selectedId === user.id ? undefined : user.id)}
-            >
-              <div className="col-span-1">
-                <div
-                  className={cx(
-                    'flex w-full items-center justify-center',
-                    selectedId === user.id ? 'visible' : 'invisible',
-                  )}
-                >
-                  <FaCheck className="size-6 text-green-500" />
-                </div>
-              </div>
-              <div className="col-span-2">
-                <div className="flex h-full w-full flex-row items-center gap-2">
-                  {/* user avatar */}
-                  <div className="">
-                    <UserAvatar src={`/api/users/${user.id}/avatar`} username={user.username} />
+        <div className="mt-5 h-96 overflow-y-auto px-4">
+          <div className="flex flex-col items-center justify-center gap-2">
+            {users.map((user) => (
+              <div
+                key={`users-select-item-${user.id}`}
+                className={cx(
+                  'hover:bg-base-200 grid w-full cursor-pointer grid-cols-4 items-center justify-center gap-2 rounded-xl p-2 px-6 transition-all duration-300',
+                  selectedId === user.id && 'bg-base-300',
+                )}
+                onClick={() => setSelectedId(selectedId === user.id ? undefined : user.id)}
+              >
+                <div className="col-span-1">
+                  <div
+                    className={cx(
+                      'flex w-full items-center justify-center',
+                      selectedId === user.id ? 'visible' : 'invisible',
+                    )}
+                  >
+                    <FaCheck className="size-6 text-green-500" />
                   </div>
+                </div>
+                <div className="col-span-3">
+                  <div className="flex h-full w-full flex-row items-center gap-2">
+                    {/* user avatar */}
+                    <div className="">
+                      <UserAvatar src={`/api/users/${user.id}/avatar`} username={user.username} />
+                    </div>
 
-                  {/* user info */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-full">
-                      <div className="text-left text-sm font-semibold">{user.username}</div>
-                    </div>
-                    <div className="w-full">
-                      <p className="w-full text-xs text-gray-500">{user.group?.name}</p>
+                    {/* user info */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-full">
+                        <div className="text-left text-sm font-semibold">{user.username}</div>
+                      </div>
+                      <div className="w-full">
+                        <p className="w-full text-xs text-gray-500">{user.group?.name}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* action */}

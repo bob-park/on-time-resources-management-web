@@ -9,7 +9,7 @@ export async function getDashboard() {
 export async function getDevice(params: DeviceSearchRequest, pageParams: PageRequest) {
   const result = await api.get('/api/devices', { searchParams: { ...params, ...pageParams } }).json<Page<Device>>();
 
-  await delay(1_000);
+  await delay(100);
 
   return result;
 }
@@ -19,7 +19,7 @@ export async function registerDevice(req: DeviceRegisterRequest) {
     .post('/api/devices', { json: { ...req, purchaseDate: dayjs(req.purchaseDate).format('YYYY-MM-DD') } })
     .json<Device>();
 
-  await delay(1_000);
+  await delay(100);
 
   return result;
 }

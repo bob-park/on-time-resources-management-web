@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
@@ -25,10 +25,19 @@ export default function DataSizeInput({ value, onChange }: Readonly<DataSizeInpu
   // state
   const [open, setOpen] = useState<boolean>(false);
   const [unit, setUnit] = useState<DataSizeUnit>('GB');
+  const [currentValue, setCurrentValue] = useState<number>(0);
+
+  // useEffect
+  useEffect(() => {
+    handleChange(currentValue);
+  }, [currentValue, unit]);
 
   // handle
   const handleChange = (value: number) => {
-    onChange?.(`${Math.min(value, 1_024)},${unit}`);
+    const size = Math.min(value, 1_024);
+    onChange?.(`${size},${unit}`);
+
+    setCurrentValue(size);
   };
 
   return (
