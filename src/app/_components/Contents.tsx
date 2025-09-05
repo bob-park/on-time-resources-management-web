@@ -46,8 +46,8 @@ export default function Contents({ children }: Readonly<{ children: React.ReactN
         {/* nav menu */}
         <div
           className={cx(
-            'absolute top-2 left-4 hidden h-[calc(100vh-20px)] w-64 transition-all duration-300 lg:z-10 lg:block',
-            !showNav && 'lg:-translate-x-72',
+            'absolute top-2 left-4 hidden h-[calc(100vh-20px)] w-72 transition-all duration-300 lg:z-10 lg:block',
+            !showNav && 'lg:-translate-x-80',
           )}
         >
           <NavMenu />
@@ -56,7 +56,7 @@ export default function Contents({ children }: Readonly<{ children: React.ReactN
         <div
           className={cx(
             'ml-5 h-full w-full min-w-[600px] overflow-y-auto transition-all duration-300',
-            showNav ? 'lg:ml-72' : '',
+            showNav ? 'lg:ml-80' : '',
           )}
         >
           <div className="relative flex w-full flex-col items-center gap-5">
@@ -81,7 +81,7 @@ export default function Contents({ children }: Readonly<{ children: React.ReactN
             className="drawer-overlay !bg-gray-300/20"
             onClick={() => setShowNav(false)}
           />
-          <div className="absolute top-2 left-4 h-[calc(100vh-20px)] w-64">
+          <div className="absolute top-2 left-4 h-[calc(100vh-20px)] w-72">
             <NavMenu shadow />
           </div>
         </div>
