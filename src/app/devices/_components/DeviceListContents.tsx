@@ -8,7 +8,6 @@ import { RiUserAddFill } from 'react-icons/ri';
 
 import DeviceAssignModal from '@/app/devices/_components/DeviceAssignModal';
 import DeviceStatusUpdater from '@/app/devices/_components/DeviceStatusUpdater';
-import DeviceStatus from '@/domain/devices/components/DeviceStatus';
 import DeviceStatusSelect from '@/domain/devices/components/DeviceStatusSelect';
 import DeviceTypeIcon from '@/domain/devices/components/DeviceTypeIcon';
 import DeviceTypeSelect from '@/domain/devices/components/DeviceTypeSelect';

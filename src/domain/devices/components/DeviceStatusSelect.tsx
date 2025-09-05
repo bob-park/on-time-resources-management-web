@@ -11,52 +11,61 @@ import { TiSpannerOutline } from 'react-icons/ti';
 import cx from 'classnames';
 
 const DeviceStatusValue = ({ value }: { value?: DeviceStatus }) => {
-  return (
-    <div className="flex flex-row items-center gap-2 rounded-xl">
-      {!value && (
-        <>
-          <FaCircle className="size-5" />
-          <span className="">전체</span>
-        </>
-      )}
-      {value === 'USED' && (
-        <>
+  if (!value) {
+    return (
+      <div className="flex flex-row items-center gap-2 rounded-xl">
+        <FaCircle className="size-5" />
+        <span className="">전체</span>
+      </div>
+    );
+  }
+
+  switch (value) {
+    case 'USED':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <LuLaptop className="size-5" />
           <span className="">사용</span>
-        </>
-      )}
-      {value === 'WAITING' && (
-        <>
+        </div>
+      );
+    case 'WAITING':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <FaRegHandPaper className="size-5" />
           <span className="">대기</span>
-        </>
-      )}
-      {value === 'EXPORT' && (
-        <>
+        </div>
+      );
+    case 'EXPORT':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <FaHandshakeSimple className="size-5" />
           <span className="">반출</span>
-        </>
-      )}
-      {value === 'BROKEN' && (
-        <>
+        </div>
+      );
+    case 'BROKEN':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <GiBrokenPottery className="size-5" />
           <span className="">고장</span>
-        </>
-      )}
-      {value === 'REPAIRING' && (
-        <>
+        </div>
+      );
+    case 'REPAIRING':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <TiSpannerOutline className="size-5" />
           <span className="">수리</span>
-        </>
-      )}
-      {value === 'LOST' && (
-        <>
+        </div>
+      );
+    case 'LOST':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <TbZoomCancel className="size-5" />
           <span className="">분실</span>
-        </>
-      )}
-    </div>
-  );
+        </div>
+      );
+    default:
+      return <div className="flex flex-row items-center gap-2 rounded-xl"></div>;
+  }
 };
 
 interface DeviceStatusSelectProps {

@@ -10,52 +10,61 @@ import { TbDeviceTv } from 'react-icons/tb';
 import cx from 'classnames';
 
 const DeviceTypeValue = ({ value }: Readonly<{ value?: DeviceType }>) => {
-  return (
-    <div className="flex flex-row items-center gap-2 rounded-xl">
-      {!value && (
-        <>
-          <FaCircle className="size-5" />
-          <span className="">전체</span>
-        </>
-      )}
-      {value === 'LAPTOP' && (
-        <>
+  if (!value) {
+    return (
+      <div className="flex flex-row items-center gap-2 rounded-xl">
+        <FaCircle className="size-5" />
+        <span className="">전체</span>
+      </div>
+    );
+  }
+
+  switch (value) {
+    case 'LAPTOP':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <FaLaptop className="size-5" />
           <span className="">노트북</span>
-        </>
-      )}
-      {value === 'DESKTOP' && (
-        <>
+        </div>
+      );
+    case 'DESKTOP':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <FaDesktop className="size-5" />
           <span className="">데스크탑</span>
-        </>
-      )}
-      {value === 'MONITOR' && (
-        <>
+        </div>
+      );
+    case 'MONITOR':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <LuMonitor className="size-5" />
           <span className="">모니터</span>
-        </>
-      )}
-      {value === 'SERVER' && (
-        <>
+        </div>
+      );
+    case 'SERVER':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <GrServerCluster className="size-5" />
           <span className="">서버</span>
-        </>
-      )}
-      {value === 'TV' && (
-        <>
+        </div>
+      );
+    case 'TV':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <TbDeviceTv className="size-5" />
           <span className="">TV</span>
-        </>
-      )}
-      {value === 'ETC' && (
-        <>
+        </div>
+      );
+    case 'ETC':
+      return (
+        <div className="flex flex-row items-center gap-2 rounded-xl">
           <IoInformationCircleOutline className="size-5" />
           <span className="">기타</span>
-        </>
-      )}
-    </div>
-  );
+        </div>
+      );
+    default:
+      return <div className="flex flex-row items-center gap-2 rounded-xl"></div>;
+  }
 };
 
 interface DeviceTypeSelectProps {
