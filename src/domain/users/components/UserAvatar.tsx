@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -11,6 +11,11 @@ interface UserAvatarProps {
 export default function UserAvatar({ src, size = 'base', username }: Readonly<UserAvatarProps>) {
   // state
   const [isError, setIsError] = useState<boolean>(false);
+
+  // useEffect
+  useEffect(() => {
+    setIsError(false);
+  }, [src]);
 
   return (
     <div className="avatar">

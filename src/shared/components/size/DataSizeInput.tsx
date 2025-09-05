@@ -5,7 +5,7 @@ import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import cx from 'classnames';
 import { v4 as uuid } from 'uuid';
 
-export type DataSizeUnit = 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'YB' | 'ZB';
+export type DataSizeUnit = 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB';
 
 interface DataSizeInputProps {
   value: number;
@@ -13,7 +13,7 @@ interface DataSizeInputProps {
 }
 
 const DEFAULT_BYTES = 1_024;
-const DATA_UNIT: DataSizeUnit[] = ['B', 'KB', 'MB', 'GB', 'TB', 'YB', 'ZB'];
+const DATA_UNIT: DataSizeUnit[] = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
 export function toBytes(value: number, unit: DataSizeUnit) {
   const index = DATA_UNIT.findIndex((dataUnit) => dataUnit === unit);
@@ -28,7 +28,7 @@ export default function DataSizeInput({ value, onChange }: Readonly<DataSizeInpu
 
   // handle
   const handleChange = (value: number) => {
-    onChange?.(`${value},${unit}`);
+    onChange?.(`${Math.min(value, 1_024)},${unit}`);
   };
 
   return (

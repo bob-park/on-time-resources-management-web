@@ -3,7 +3,10 @@ services:
     container_name: web
     image: ghcr.io/bob-park/on-time-resources-management-web
     build:
+      context: ./
       dockerfile: ./Dockerfile
+      args:
+        - GITHUB_NPM_AUTH_TOKEN=${GITHUB_NPM_AUTH_TOKEN}
       x-bake:
         platforms:
           - linux/amd64
