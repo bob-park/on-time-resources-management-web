@@ -1,6 +1,6 @@
 import { InfiniteData, QueryKey, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getDashboard, getDevice, registerDevice, updateDevice } from '@/domain/devices/api/devices';
+import { getDashboard, getDevice, getDevices, registerDevice, updateDevice } from '@/domain/devices/api/devices';
 import { getNextPageParams } from '@/shared/api';
 
 export function useDeviceDashboard() {
@@ -21,7 +21,7 @@ export function useDevices(req: DeviceSearchRequest, initPageParams: PageRequest
     PageRequest
   >({
     queryKey: ['devices', req],
-    queryFn: async ({ pageParam }) => getDevice(req, pageParam),
+    queryFn: async ({ pageParam }) => getDevices(req, pageParam),
     initialPageParam: {
       ...initPageParams,
     },
@@ -43,6 +43,15 @@ export function useDevices(req: DeviceSearchRequest, initPageParams: PageRequest
   };
 
   return { devices, isLoading, isFetchingNextPage, fetchNextPage, refetch, page, hasNextPage };
+}
+
+export function useDevice(id: string) {
+  const { data, isLoading } = useQuery<Device>({
+    queryKey: ['devices', id],
+    queryFn: () => getDevice(id),
+  });
+
+  return { device: data, isLoading };
 }
 
 export function useDeviceRegister({ onSuccess, onError }: QueryMutationHandle<Device>) {

@@ -6,6 +6,8 @@ import { IoIosAdd } from 'react-icons/io';
 import { MdDevices, MdKey } from 'react-icons/md';
 import { RiUserAddFill } from 'react-icons/ri';
 
+import { useRouter } from 'next/navigation';
+
 import DeviceAssignModal from '@/app/devices/_components/DeviceAssignModal';
 import DeviceStatusUpdater from '@/app/devices/_components/DeviceStatusUpdater';
 import DeviceStatusSelect from '@/domain/devices/components/DeviceStatusSelect';
@@ -40,6 +42,9 @@ export default function DeviceListContents() {
     name: '',
     userId: '',
   });
+
+  // hooks
+  const router = useRouter();
 
   // queries
   const { devices, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage, page } = useDevices(searchParams, {
@@ -260,7 +265,8 @@ export default function DeviceListContents() {
         {devices.map((device) => (
           <div
             key={`key-device-list-item-${device.id}`}
-            className="hover:bg-base-300 grid w-full grid-cols-18 gap-3 rounded-xl px-4 py-2 transition-all duration-300 hover:cursor-pointer"
+            className="hover:bg-base-300 grid w-full cursor-pointer grid-cols-18 gap-3 rounded-xl px-4 py-2 transition-all duration-300"
+            onClick={() => router.push(`/devices/${device.id}`)}
           >
             <div className="col-span-2">
               <div className="flex h-full items-center justify-center">
