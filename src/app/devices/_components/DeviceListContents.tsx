@@ -29,9 +29,9 @@ export default function DeviceListContents({
   querySearchParams,
 }: Readonly<{ querySearchParams: DeviceSearchRequest }>) {
   // state
-  const [inputModel, setInputModel] = useState<string>('');
-  const [inputSerialNumber, setInputSerialNumber] = useState<string>('');
-  const [searchParams, setSearchParams] = useState<DeviceSearchRequest>(() => querySearchParams);
+  const [inputModel, setInputModel] = useState<string>();
+  const [inputSerialNumber, setInputSerialNumber] = useState<string>();
+  const [searchParams, setSearchParams] = useState<DeviceSearchRequest>(querySearchParams);
 
   // queries
   const { devices, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage, page } = useDevices(searchParams, {
@@ -52,6 +52,10 @@ export default function DeviceListContents({
 
   // useEffect
   useEffect(() => {
+    if (inputModel === undefined) {
+      return;
+    }
+
     const timeoutId = setTimeout(() => {
       setSearchParams((prev) => ({ ...prev, model: inputModel }));
     }, 500);
@@ -62,6 +66,10 @@ export default function DeviceListContents({
   }, [inputModel]);
 
   useEffect(() => {
+    if (inputSerialNumber === undefined) {
+      return;
+    }
+
     const timeoutId = setTimeout(() => {
       setSearchParams((prev) => ({ ...prev, serialNumber: inputSerialNumber }));
     }, 500);
@@ -135,7 +143,7 @@ export default function DeviceListContents({
                   type="search"
                   className="grow"
                   placeholder="Model"
-                  value={inputModel}
+                  value={inputModel || ''}
                   onChange={(e) => setInputModel(e.target.value)}
                 />
               </label>
@@ -156,7 +164,7 @@ export default function DeviceListContents({
                   type="search"
                   className="grow"
                   placeholder="Serial Number"
-                  value={inputSerialNumber}
+                  value={inputSerialNumber || ''}
                   onChange={(e) => setInputSerialNumber(e.target.value)}
                 />
               </label>

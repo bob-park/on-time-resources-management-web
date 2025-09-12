@@ -21,8 +21,8 @@ export default function SoftwareListContents({
   querySearchParams,
 }: Readonly<{ querySearchParams: SoftwareSearchRequest }>) {
   // state
-  const [inputName, setInputName] = useState<string>('');
-  const [searchParams, setSearchParams] = useState<SoftwareSearchRequest>(() => querySearchParams);
+  const [inputName, setInputName] = useState<string>();
+  const [searchParams, setSearchParams] = useState<SoftwareSearchRequest>(querySearchParams);
 
   // queries
   const { software, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage, page } = useSoftware(searchParams, {
@@ -42,6 +42,10 @@ export default function SoftwareListContents({
 
   // useEffect
   useEffect(() => {
+    if (inputName === undefined) {
+      return;
+    }
+
     const timeoutId = setTimeout(() => {
       setSearchParams((prev) => ({ ...prev, name: inputName }));
     }, 500);
@@ -75,7 +79,7 @@ export default function SoftwareListContents({
                 type="search"
                 className="grow"
                 placeholder="S/W"
-                value={inputName}
+                value={inputName ?? ''}
                 onChange={(e) => setInputName(e.target.value)}
               />
             </label>

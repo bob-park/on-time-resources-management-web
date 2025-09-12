@@ -46,15 +46,15 @@ interface DeviceDashboard {
 }
 
 type DeviceSearchRequest = {
-  teamId: string;
-  name: string;
-  description: string;
-  status: DeviceStatus | '';
-  deviceType: DeviceType | '';
-  model: string;
-  manufacturer: string;
-  serialNumber: string;
-  userId: string;
+  teamId?: string;
+  name?: string;
+  description?: string;
+  status?: DeviceStatus | '';
+  deviceType?: DeviceType | '';
+  model?: string;
+  manufacturer?: string;
+  serialNumber?: string;
+  userId?: string;
 };
 
 // * device register request
