@@ -1,7 +1,9 @@
 import DeviceListContents from './_components/DeviceListContents';
 import DeviceSimpleResult from './_components/DeviceSimpleResult';
 
-export default function DeviceListPage() {
+export default async function DeviceListPage({ searchParams }: { searchParams: Promise<DeviceSearchRequest> }) {
+  const searchRequest = await searchParams;
+
   return (
     <div className="flex size-full flex-col gap-5">
       {/* title */}
@@ -16,7 +18,7 @@ export default function DeviceListPage() {
         </div>
 
         <div className="mt-5 w-full">
-          <DeviceListContents />
+          <DeviceListContents querySearchParams={searchRequest} />
         </div>
       </div>
     </div>

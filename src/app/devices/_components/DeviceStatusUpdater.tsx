@@ -28,7 +28,15 @@ export default function DeviceStatusUpdater({ device }: Readonly<DeviceStatusUpd
   return (
     <div className="group relative flex min-w-32 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl select-none">
       {/* current value */}
-      <div className="relative flex w-full flex-row items-center justify-center gap-2" onClick={() => setOpen(!open)}>
+      <div
+        className="relative flex w-full flex-row items-center justify-center gap-2"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          setOpen(!open);
+        }}
+      >
         <DeviceStatus status={device.status} />
       </div>
       <div

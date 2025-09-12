@@ -24,24 +24,16 @@ import { overlay } from 'overlay-kit';
 
 import DeviceRegisterModal from './DeviceRegisterModal';
 
-export default function DeviceListContents() {
+export default function DeviceListContents({
+  querySearchParams,
+}: Readonly<{ querySearchParams: DeviceSearchRequest }>) {
   // ref
   const hasMoreRef = useRef<HTMLDivElement>(null);
 
   // state
   const [inputModel, setInputModel] = useState<string>('');
   const [inputSerialNumber, setInputSerialNumber] = useState<string>('');
-  const [searchParams, setSearchParams] = useState<DeviceSearchRequest>({
-    teamId: '',
-    deviceType: '',
-    description: '',
-    status: '',
-    model: '',
-    manufacturer: '',
-    serialNumber: '',
-    name: '',
-    userId: '',
-  });
+  const [searchParams, setSearchParams] = useState<DeviceSearchRequest>(() => querySearchParams);
 
   // hooks
   const router = useRouter();
@@ -78,7 +70,6 @@ export default function DeviceListContents() {
     };
   }, [hasNextPage]);
 
-  // useEffect
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setSearchParams((prev) => ({ ...prev, model: inputModel }));
@@ -98,6 +89,10 @@ export default function DeviceListContents() {
       timeoutId && clearTimeout(timeoutId);
     };
   }, [inputSerialNumber]);
+
+  useEffect(() => {
+    router.replace(`/devices?${new URLSearchParams(searchParams).toString()}`);
+  }, [searchParams]);
 
   // handle
   const handleAssignUser = (deviceId: string) => {
@@ -266,7 +261,9 @@ export default function DeviceListContents() {
           <div
             key={`key-device-list-item-${device.id}`}
             className="hover:bg-base-300 grid w-full cursor-pointer grid-cols-18 gap-3 rounded-xl px-4 py-2 transition-all duration-300"
-            onClick={() => router.push(`/devices/${device.id}`)}
+            onClick={(e) => {
+              router.push(`/devices/${device.id}`);
+            }}
           >
             <div className="col-span-2">
               <div className="flex h-full items-center justify-center">
@@ -292,7 +289,12 @@ export default function DeviceListContents() {
             <div className="tooltip col-span-3" data-tip={device.user ? '변경하기' : '할당하기'}>
               <div
                 className="hover:bg-base-200 size-full rounded-xl px-4 transition-all duration-300"
-                onClick={() => handleAssignUser(device.id)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  handleAssignUser(device.id);
+                }}
               >
                 {device.user ? (
                   <div className="flex h-full w-fit flex-row items-center gap-2">
