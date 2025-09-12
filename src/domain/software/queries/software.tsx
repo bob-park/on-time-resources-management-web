@@ -1,6 +1,6 @@
-import { InfiniteData, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
+import { InfiniteData, QueryKey, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { getSoftware } from '@/domain/software/api/software';
+import { getSoftware, registerSoftware } from '@/domain/software/api/software';
 import { getNextPageParams } from '@/shared/api';
 
 export function useSoftware(req: SoftwareSearchRequest, initPageParams: PageRequest) {
@@ -34,4 +34,23 @@ export function useSoftware(req: SoftwareSearchRequest, initPageParams: PageRequ
   };
 
   return { software, isLoading, isFetchingNextPage, fetchNextPage, refetch, page, hasNextPage };
+}
+
+export function useSoftwareRegister({ onSuccess, onError }: QueryMutationHandle<Software>) {
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ['software', 'register'],
+    mutationFn: (req: SoftwareRegisterRequest) => registerSoftware(req),
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({ queryKey: ['software'] });
+
+      onSuccess?.(data);
+    },
+    onError: (err) => {
+      onError?.(err);
+    },
+  });
+
+  return { register: mutate, isLoading: isPending };
 }

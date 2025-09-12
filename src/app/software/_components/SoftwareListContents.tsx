@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { IoIosAdd } from 'react-icons/io';
 import { RiMiniProgramLine } from 'react-icons/ri';
@@ -12,6 +12,10 @@ import { useSoftware } from '@/domain/software/queries/software';
 import TimeAgoKo from '@/shared/components/timeago';
 import dayjs from '@/shared/dayjs';
 import useInfinityScroll from '@/shared/hooks/useInfinityScroll';
+
+import { overlay } from 'overlay-kit';
+
+import SoftwareRegisterModal from './SoftwareRegisterModal';
 
 export default function SoftwareListContents({
   querySearchParams,
@@ -37,6 +41,19 @@ export default function SoftwareListContents({
   });
 
   // useEffect
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearchParams((prev) => ({ ...prev, name: inputName }));
+    }, 500);
+
+    return () => {
+      timeoutId && clearTimeout(timeoutId);
+    };
+  }, [inputName]);
+
+  useEffect(() => {
+    router.replace(`/software?${new URLSearchParams(searchParams).toString()}`);
+  }, [searchParams]);
 
   // handle
 
@@ -54,7 +71,13 @@ export default function SoftwareListContents({
           <div className="flex h-14 w-full items-center">
             <label className="input input-lg">
               <RiMiniProgramLine className="size-5" />
-              <input type="search" className="grow" placeholder="S/W" />
+              <input
+                type="search"
+                className="grow"
+                placeholder="S/W"
+                value={inputName}
+                onChange={(e) => setInputName(e.target.value)}
+              />
             </label>
           </div>
         </div>
@@ -71,7 +94,22 @@ export default function SoftwareListContents({
 
           {/* action */}
           <div className="">
-            <button className="btn btn-lg btn-soft">
+            <button
+              className="btn btn-lg btn-soft"
+              onClick={() =>
+                overlay.open(({ isOpen, close, unmount }) => (
+                  <SoftwareRegisterModal
+                    open={isOpen}
+                    onClose={() => {
+                      close();
+                      setTimeout(() => {
+                        unmount();
+                      }, 500);
+                    }}
+                  />
+                ))
+              }
+            >
               <IoIosAdd className="size-6" />
               S/W 등록
             </button>
