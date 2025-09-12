@@ -103,7 +103,7 @@ export default function NavMenu({ shadow = false }: Readonly<{ shadow?: boolean 
           </NavMenuList>
 
           <NavMenuList title="S/W 관리" icon={<RiMiniProgramFill className="size-5" />}>
-            <NavMenuItem title="S/W 목록" comingSoon />
+            <NavMenuItem title="S/W 목록" href="/software" active={isActive(segments, ['software'])} />
             <NavMenuItem title="사용자 S/W 관리" comingSoon />
           </NavMenuList>
         </div>

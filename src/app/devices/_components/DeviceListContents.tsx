@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { IoIosAdd } from 'react-icons/io';
 import { MdDevices, MdKey } from 'react-icons/md';
@@ -19,6 +19,7 @@ import UserDropdown from '@/domain/users/components/UserDropdown';
 import { useUsers } from '@/domain/users/queries/users';
 import TimeAgoKo from '@/shared/components/timeago';
 import dayjs from '@/shared/dayjs';
+import useInfinityScroll from '@/shared/hooks/useInfinityScroll';
 
 import { overlay } from 'overlay-kit';
 
@@ -27,16 +28,10 @@ import DeviceRegisterModal from './DeviceRegisterModal';
 export default function DeviceListContents({
   querySearchParams,
 }: Readonly<{ querySearchParams: DeviceSearchRequest }>) {
-  // ref
-  const hasMoreRef = useRef<HTMLDivElement>(null);
-
   // state
   const [inputModel, setInputModel] = useState<string>('');
   const [inputSerialNumber, setInputSerialNumber] = useState<string>('');
   const [searchParams, setSearchParams] = useState<DeviceSearchRequest>(() => querySearchParams);
-
-  // hooks
-  const router = useRouter();
 
   // queries
   const { devices, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage, page } = useDevices(searchParams, {
@@ -46,30 +41,16 @@ export default function DeviceListContents({
   });
   const { users } = useUsers({ isDeleted: false }, { page: 0, size: 100, sort: 'username,asc' });
 
+  // hooks
+  const router = useRouter();
+  const [hasMoreRef] = useInfinityScroll({
+    hasMore: hasNextPage,
+    onNext: async () => {
+      await fetchNextPage();
+    },
+  });
+
   // useEffect
-  useEffect(() => {
-    if (!hasMoreRef.current) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      async (entries) => {
-        const isExecute = entries.every((entry) => entry.intersectionRatio === 1);
-
-        if (isExecute) {
-          await fetchNextPage();
-        }
-      },
-      { threshold: 1 },
-    );
-
-    hasNextPage ? observer.observe(hasMoreRef.current) : observer.unobserve(hasMoreRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [hasNextPage]);
-
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setSearchParams((prev) => ({ ...prev, model: inputModel }));
